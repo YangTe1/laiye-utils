@@ -1,0 +1,31 @@
+# FROM python:3.6
+FROM manbug/base-env:v1
+
+ENV LANG C.UTF-8
+
+# debug参数
+ENV DEBUG=1
+
+# tornado内置多进程参数
+ENV multi_process_num=4
+
+# 定义时区参数
+ENV TZ=Asia/Shanghai
+
+# 设置时区
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo '$TZ' > /etc/timezone
+
+RUN mkdir -p /home/works/program/
+WORKDIR /home/works/program/
+
+# Bypass unneeded rerun of pip when code changes
+ADD requirements.txt /home/works/program/requirements.txt
+RUN pip install --no-cache-dir -r /home/works/program/requirements.txt -i https://pypi.douban.com/simple
+
+ADD . /home/works/program/
+
+RUN mkdir -p /home/works/program/logs
+
+EXPOSE 8644
+
+CMD exec python app.py --port=8601
