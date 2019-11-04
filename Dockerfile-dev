@@ -26,6 +26,6 @@ ADD . /home/works/program/
 
 RUN mkdir -p /home/works/program/logs
 
-EXPOSE 8644
+EXPOSE 8603
 
-CMD exec python app.py --port=8601
+CMD exec python app.py --port=8603
