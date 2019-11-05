@@ -48,5 +48,6 @@ class WebhookHandler(BaseRequestHandler):
         resp["version"] = version
         resp["scene"] = "response"
         await m_col.insert_one(resp)
+        logger.info(f"debug: {resp}")
 
         return self.write(resp)
