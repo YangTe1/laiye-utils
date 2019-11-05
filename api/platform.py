@@ -20,6 +20,8 @@ class WebhookHandler(BaseRequestHandler):
 
         data = json.loads(self.request.body)
 
+        logger.info(f"debug origin data: {data}")
+
         if data.get("bot_response"):
             version = "v1"
         else:
@@ -28,6 +30,7 @@ class WebhookHandler(BaseRequestHandler):
         data["version"] = version
         data["scene"] = "request"
         _ = await m_col.insert_one(data)
+        logger.info(f"debug data: {data}")
 
         # 消息路由处理，v1
         if version == "v1":
@@ -47,7 +50,7 @@ class WebhookHandler(BaseRequestHandler):
             }
         resp["version"] = version
         resp["scene"] = "response"
-        await m_col.insert_one(resp)
+        _ = await m_col.insert_one(resp)
         logger.info(f"debug: {resp}")
 
         return self.write(resp)
