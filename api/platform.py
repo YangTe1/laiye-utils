@@ -27,7 +27,7 @@ class WebhookHandler(BaseRequestHandler):
 
         data["version"] = version
         data["scene"] = "request"
-        await m_col.insert_one(data)
+        _ = await m_col.insert_one(data)
 
         # 消息路由处理，v1
         if version == "v1":
