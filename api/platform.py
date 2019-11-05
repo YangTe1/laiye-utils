@@ -29,8 +29,7 @@ class WebhookHandler(BaseRequestHandler):
 
         data["version"] = version
         data["scene"] = "request"
-        _ = await m_col.insert_one(data)
-        logger.info(f"debug data: {data}")
+        await m_col.insert_one(data)
 
         # 消息路由处理，v1
         if version == "v1":
@@ -50,7 +49,9 @@ class WebhookHandler(BaseRequestHandler):
             }
         resp["version"] = version
         resp["scene"] = "response"
-        _ = await m_col.insert_one(resp)
+        await m_col.insert_one(resp)
         logger.info(f"debug: {resp}")
+        # resp被添加了_id
+        resp.pop("_id")
 
         return self.write(resp)
