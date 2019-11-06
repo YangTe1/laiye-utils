@@ -53,5 +53,7 @@ class WebhookHandler(BaseRequestHandler):
         logger.info(f"debug: {resp}")
         # resp被添加了_id
         resp.pop("_id")
+        resp.pop("version")
+        resp.pop("scene")
 
         return self.write(resp)
